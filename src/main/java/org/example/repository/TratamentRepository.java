@@ -1,10 +1,8 @@
 package org.example.repository;
 
-import org.example.Infraestructure.DatabaseFactory;
-import org.example.Models.Disease;
+import org.example.Infraestructure.database.DatabaseFactory;
 import org.example.Models.Tratament;
 
-import java.lang.annotation.Target;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

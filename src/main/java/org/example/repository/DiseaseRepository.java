@@ -1,7 +1,6 @@
 package org.example.repository;
 
-import org.example.Infraestructure.DatabaseFactory;
-import org.example.Models.Client;
+import org.example.Infraestructure.database.DatabaseFactory;
 import org.example.Models.Disease;
 
 import java.sql.ResultSet;
