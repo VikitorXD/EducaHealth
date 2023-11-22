@@ -1,7 +1,6 @@
 package org.example.repository;
 
-import org.example.Infraestructure.DatabaseFactory;
-import org.example.Models.Disease;
+import org.example.Infraestructure.database.DatabaseFactory;
 import org.example.Models.Symptom;
 
 import java.sql.ResultSet;
@@ -23,7 +22,8 @@ public class SymptomRepository {
             while (result.next()) {
                 symp.add(new Symptom(
                         result.getLong("ID_SYMPTOM"),
-                        result.getString("DS_SYMPTOM")
+                        result.getString("DS_SYMPTOM"),
+                        result.getString("NM_DISEASE")
                 ));
 
             }
@@ -31,19 +31,20 @@ public class SymptomRepository {
         return symp;
     }
 
-    public Optional<Symptom> findBy(long idSymptom) throws SQLException {
-        var sql = "SELECT * FROM EH_SYMPTOM WHERE ID_SYMPTOM = ?";
+    public Optional<Symptom> findBy(String NMdisease ) throws SQLException {
+        var sql = "SELECT * FROM EH_SYMPTOM WHERE NM_DISEASE = ?";
 
         try {
             var conn = DatabaseFactory.getConnection();
             var statement = conn.prepareStatement(sql);
-            statement.setLong(1, idSymptom);
+            statement.setString(1, NMdisease);
 
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     var symp = new Symptom(
                             rs.getLong("ID_SYMPTOM"),
-                            rs.getString("DS_SYMPTOM")
+                            rs.getString("DS_SYMPTOM"),
+                            rs.getString("NM_DISEASE")
                     );
                     return Optional.ofNullable(symp);
                 }

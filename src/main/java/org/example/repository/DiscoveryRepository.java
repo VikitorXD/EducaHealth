@@ -1,8 +1,7 @@
 package org.example.repository;
 
-import org.example.Infraestructure.DatabaseFactory;
+import org.example.Infraestructure.database.DatabaseFactory;
 import org.example.Models.Discovery;
-import org.example.Models.Disease;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,7 +24,8 @@ public class DiscoveryRepository {
                         result.getInt("ID_DISCOVERY"),
                         result.getDate("DT_DISCOVERY").toLocalDate(),
                         result.getString("NM_DISCOVER"),
-                        result.getString("DS_DISCOVERY")
+                        result.getString("DS_DISCOVERY"),
+                        result.getString("NM_DISEASE")
                 ));
 
             }
@@ -34,13 +34,13 @@ public class DiscoveryRepository {
 
     }
 
-    public Optional<Discovery> findBy(long idTreatment) throws SQLException {
-        var sql = "SELECT * FROM EH_DISCOVERY WHERE ID_DISCOVERY = ?";
+    public Optional<Discovery> findBy(String NMdisease) throws SQLException {
+        var sql = "SELECT * FROM EH_DISCOVERY WHERE NM_DISEASE = ?";
 
         try {
             var conn = DatabaseFactory.getConnection();
             var statement = conn.prepareStatement(sql);
-            statement.setLong(1, idTreatment);
+            statement.setString(1, NMdisease);
 
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
@@ -48,7 +48,8 @@ public class DiscoveryRepository {
                             rs.getInt("ID_DISCOVERY"),
                             rs.getDate("DT_DISCOVERY").toLocalDate(),
                             rs.getString("NM_DISCOVER"),
-                            rs.getString("DS_DISCOVERY")
+                            rs.getString("DS_DISCOVERY"),
+                            rs.getString("NM_DISEASE")
                     );
                     return Optional.ofNullable(disccoveri);
                 }

@@ -4,14 +4,24 @@ public class Tratament {
 
     private long IdTreatment;
     private String RrMedication;
+    private String NMdisease;
     private String Fquse;
     private String DsTratament;
 
-    public Tratament(long idTreatment, String rrMedication, String fquse, String dsTratament) {
+    public Tratament(long idTreatment, String rrMedication, String NMdisease, String fquse, String dsTratament) {
         IdTreatment = idTreatment;
         RrMedication = rrMedication;
+        this.NMdisease = NMdisease;
         Fquse = fquse;
         DsTratament = dsTratament;
+    }
+
+    public String getNMdisease() {
+        return NMdisease;
+    }
+
+    public void setNMdisease(String NMdisease) {
+        this.NMdisease = NMdisease;
     }
 
     public Tratament() {

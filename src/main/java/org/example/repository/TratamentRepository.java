@@ -1,10 +1,8 @@
 package org.example.repository;
 
-import org.example.Infraestructure.DatabaseFactory;
-import org.example.Models.Disease;
+import org.example.Infraestructure.database.DatabaseFactory;
 import org.example.Models.Tratament;
 
-import java.lang.annotation.Target;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,7 +24,8 @@ public class TratamentRepository {
                         result.getInt("ID_TREATMENT"),
                         result.getString("RT_MEDICATION"),
                         result.getString("FQ_USE"),
-                        result.getString("DS_TREATMETN")
+                        result.getString("DS_TREATMETN"),
+                        result.getString("NM_DISEASE")
                 ));
             }
         }
@@ -34,13 +33,13 @@ public class TratamentRepository {
     }
 
 
-    public Optional<Tratament> findBy(long IdTreatment) throws SQLException {
-        var sql = "SELECT * FROM EH_TREATMENT WHERE ID_TREATMENT = ?";
+    public Optional<Tratament> findBy(String NMdisease) throws SQLException {
+        var sql = "SELECT * FROM EH_TREATMENT WHERE NM_DISEASE = ?";
 
         try {
             var conn = DatabaseFactory.getConnection();
             var statement = conn.prepareStatement(sql);
-            statement.setLong(1, IdTreatment);
+            statement.setString(1, NMdisease);
 
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
@@ -48,7 +47,8 @@ public class TratamentRepository {
                             rs.getInt("ID_TREATMENT"),
                             rs.getString("RT_MEDICATION"),
                             rs.getString("FQ_USE"),
-                            rs.getString("DS_TREATMETN")
+                            rs.getString("DS_TREATMETN"),
+                            rs.getString("NM_DISEASE")
                     );
                     return Optional.ofNullable(tra);
                 }

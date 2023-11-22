@@ -25,9 +25,9 @@ public class SymptomResource {
     }
 
     @GET
-    @Path("{id}")
+    @Path("{nome}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Symptom getBy(@PathParam("id") long idSymptom) throws SQLException {
-        return repository.findBy(idSymptom).orElse(null);
+    public Symptom getBy(@PathParam("nome")  String NMdisease) throws SQLException {
+        return repository.findBy(NMdisease).orElse(null);
     }
 }

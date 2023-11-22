@@ -25,9 +25,9 @@ public class TratamentResource {
     }
 
     @GET
-    @Path("{id}")
+    @Path("{nome}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Tratament getBy(@PathParam("id") long IdTreatment) throws SQLException {
-        return repository.findBy(IdTreatment).orElse(null);
+    public Tratament getBy(@PathParam("nome") String NMdisease ) throws SQLException {
+        return repository.findBy(NMdisease).orElse(null);
     }
 }

@@ -1,7 +1,6 @@
 package org.example.repository;
 
-import org.example.Infraestructure.DatabaseFactory;
-import org.example.Models.Client;
+import org.example.Infraestructure.database.DatabaseFactory;
 import org.example.Models.Disease;
 
 import java.sql.ResultSet;
@@ -34,13 +33,13 @@ public class DiseaseRepository {
 
     }
 
-    public Optional<Disease> findBy(long idDisease) throws SQLException {
-        var sql = "SELECT * FROM EH_DISEASES WHERE ID_DISEASE = ?";
+    public Optional<Disease> findBy(String NMdisease) throws SQLException {
+        var sql = "SELECT * FROM EH_DISEASES WHERE NM_DISEASE = ?";
 
         try {
             var conn = DatabaseFactory.getConnection();
             var statement = conn.prepareStatement(sql);
-            statement.setLong(1, idDisease);
+            statement.setString(1, NMdisease);
 
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {

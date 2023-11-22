@@ -2,14 +2,25 @@ package org.example.Models;
 
 public class Symptom {
     private long idSymptom;
+    private String NMdisease;
     private String DsSymptom;
 
-    public Symptom(long idSymptom, String dsSymptom) {
+
+    public Symptom(long idSymptom, String NMdisease, String dsSymptom) {
         this.idSymptom = idSymptom;
+        this.NMdisease = NMdisease;
         DsSymptom = dsSymptom;
     }
 
     public Symptom() {
+    }
+
+    public String getNMdisease() {
+        return NMdisease;
+    }
+
+    public void setNMdisease(String NMdisease) {
+        this.NMdisease = NMdisease;
     }
 
     public long getIdSymptom() {

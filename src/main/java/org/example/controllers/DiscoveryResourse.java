@@ -25,9 +25,9 @@ public class DiscoveryResourse {
     }
 
     @GET
-    @Path("{id}")
+    @Path("{nome}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Discovery getBy(@PathParam("id") long idDisease) throws SQLException {
-        return repository.findBy(idDisease).orElse(null);
+    public Discovery getBy(@PathParam("nome") String NMdisease) throws SQLException {
+        return repository.findBy(NMdisease).orElse(null);
     }
 }
