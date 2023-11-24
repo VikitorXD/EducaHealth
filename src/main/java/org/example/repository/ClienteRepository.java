@@ -64,7 +64,7 @@ public class ClienteRepository {
     }
 
     public void add(Client client) throws SQLException {
-        var sql = "INSERT INTO  EH_CLIENT (ID_CLIENT, NM_CLIENTE, NR_CPF,NM_EMAIL, NM_PASSWORD, BIRTH_DATE) VALUES(NUM_ID.NEXTVAL,?,?,?,?,?)";
+        var sql = "INSERT INTO  EH_CLIENT (ID_CLIENT, NM_CLIENTE,NM_EMAIL, NM_PASSWORD, BIRTH_DATE) VALUES(NUM_ID.NEXTVAL,?,?,?,?)";
 
         try {
             var conn = DatabaseFactory.getConnection();
