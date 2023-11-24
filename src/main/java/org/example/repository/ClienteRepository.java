@@ -24,7 +24,6 @@ public class ClienteRepository {
                 client.add(new Client(
                         result.getLong("ID_CLIENT"),
                         result.getDate("BIRTH_DATE").toLocalDate(),
-                        result.getLong("NR_CPF"),
                         result.getString("NM_EMAIL"),
                         result.getString("NM_CLIENTE"),
                         result.getString("NM_PASSWORD")
@@ -49,7 +48,6 @@ public class ClienteRepository {
                     var client = new Client(
                             rs.getLong("ID_CLIENT"),
                             rs.getDate("BIRTH_DATE").toLocalDate(),
-                            rs.getLong("NR_CPF"),
                             rs.getString("NM_EMAIL"),
                             rs.getString("NM_CLIENTE"),
                             rs.getString("NM_PASSWORD")
@@ -72,10 +70,9 @@ public class ClienteRepository {
             var conn = DatabaseFactory.getConnection();
             var statement = conn.prepareStatement(sql);
             statement.setString(1,client.getNmCliente());
-            statement.setLong(2,client.getnrcpf());
-            statement.setString(3,client.getEmail());
-            statement.setString(4, client.getPassword());
-            statement.setDate(5, Date.valueOf(client.getBirth_date()));
+            statement.setString(2,client.getEmail());
+            statement.setString(3, client.getPassword());
+            statement.setDate(4, Date.valueOf(client.getBirth_date()));
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException(e);
@@ -83,16 +80,15 @@ public class ClienteRepository {
     }
     public Client update(Client client) throws SQLException {
 
-        var sql = "UPDATE EH_CLIENT SET NM_CLIENTE = ?, NR_CPF = ?, NM_EMAIL = ?, NM_PASSWORD = ?, BIRTH_DATE = ? WHERE ID_CLIENT = ?";
+        var sql = "UPDATE EH_CLIENT SET NM_CLIENTE = ?, NM_EMAIL = ?, NM_PASSWORD = ?, BIRTH_DATE = ? WHERE ID_CLIENT = ?";
         try {
             var conn = DatabaseFactory.getConnection();
             var statement = conn.prepareStatement(sql);
             statement.setString(1, client.getNmCliente());
-            statement.setLong(2, client.getnrcpf());
-            statement.setString(3, client.getEmail());
-            statement.setString(4, client.getPassword());
-            statement.setDate(5, Date.valueOf(client.getBirth_date()));
-            statement.setLong(6,client.getIdUser());
+            statement.setString(2, client.getEmail());
+            statement.setString(3, client.getPassword());
+            statement.setDate(4, Date.valueOf(client.getBirth_date()));
+            statement.setLong(5,client.getIdUser());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

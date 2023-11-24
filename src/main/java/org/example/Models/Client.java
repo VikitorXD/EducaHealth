@@ -5,18 +5,16 @@ import java.time.LocalDate;
 public class Client {
     private long idUser;
     private LocalDate birth_date;
-    private long nrcpf;
     private String nmCliente;
     private String email;
     private String password;
 
-    public Client(long idUser,  LocalDate birth_date,long nrcpf, String nmCliente, String email, String password) {
+    public Client(long idUser,  LocalDate birth_date, String nmCliente, String email, String password) {
         this.idUser = idUser;
         this.nmCliente = nmCliente;
         this.email = email;
         this.password = password;
         this.birth_date = birth_date;
-        this.nrcpf = nrcpf;
     }
 
     public Client() {
@@ -52,14 +50,6 @@ public class Client {
 
     public void setBirth_date(LocalDate birth_date) {
         this.birth_date = birth_date;
-    }
-
-    public long getnrcpf() {
-        return nrcpf;
-    }
-
-    public void setnrcpf(long cpf) {
-        this.nrcpf = cpf;
     }
 
     public String getNmCliente() {
