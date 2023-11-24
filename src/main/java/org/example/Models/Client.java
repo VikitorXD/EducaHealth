@@ -59,4 +59,8 @@ public class Client {
     public void setNmCliente(String nmCliente) {
         this.nmCliente = nmCliente;
     }
+
+    public void novo(){
+
+    }
 }
