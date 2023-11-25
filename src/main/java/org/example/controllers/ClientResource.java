@@ -29,6 +29,7 @@ public class ClientResource {
     }
 
     @POST
+    @Path("Login")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(Client client) throws SQLException {
         repository.add(client);
