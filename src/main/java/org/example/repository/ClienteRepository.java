@@ -34,7 +34,36 @@ public class ClienteRepository {
         return client;
     }
 
-    public Optional<Client> findby(long idUser) throws SQLException {
+    public Optional<Client> findby(String email) throws SQLException {
+        var sql = "SELECT * FROM EH_CLIENT WHERE NM_EMAIL = ?";
+
+
+        try {
+            var conn = DatabaseFactory.getConnection();
+            var statement = conn.prepareStatement(sql);
+            statement.setString(1, email);
+            try {
+                ResultSet rs = statement.executeQuery();
+                if (rs.next()) {
+                    var client = new Client(
+                            rs.getLong("ID_CLIENT"),
+                            rs.getDate("BIRTH_DATE").toLocalDate(),
+                            rs.getString("NM_EMAIL"),
+                            rs.getString("NM_CLIENTE"),
+                            rs.getString("NM_PASSWORD")
+                    );
+                    return Optional.ofNullable(client);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Client> findbyid(long idUser) throws SQLException {
         var sql = "SELECT * FROM EH_CLIENT WHERE ID_CLIENT = ?";
 
 
@@ -60,6 +89,35 @@ public class ClienteRepository {
         } catch (SQLException e) {
             throw new SQLException(e);
         }
+        return Optional.empty();
+    }
+
+    public Optional<Client> findByEmailAndPassword(String email, String password) throws SQLException {
+        var sql = "SELECT * FROM EH_CLIENT WHERE NM_EMAIL = ? AND NM_PASSWORD = ?";
+
+        try (var conn = DatabaseFactory.getConnection();
+             var statement = conn.prepareStatement(sql)) {
+            statement.setString(1, email);
+            statement.setString(2, password);
+
+            try (var rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    var client = new Client(
+                            rs.getLong("ID_CLIENT"),
+                            rs.getDate("BIRTH_DATE").toLocalDate(),
+                            rs.getString("NM_EMAIL"),
+                            rs.getString("NM_CLIENTE"),
+                            rs.getString("NM_PASSWORD")
+                    );
+                    return Optional.ofNullable(client);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException("Error executing query", e);
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error connecting to the database", e);
+        }
+
         return Optional.empty();
     }
 

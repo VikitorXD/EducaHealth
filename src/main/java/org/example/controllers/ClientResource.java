@@ -8,6 +8,7 @@ import org.example.repository.ClienteRepository;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 
 @Path("client")
@@ -22,14 +23,13 @@ public class ClientResource {
     }
 
     @GET
-    @Path("{id}")
+    @Path("{email}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Client getUserBy(@PathParam("id") int id) throws SQLException {
-        return repository.findby(id).orElse(null);
+    public Client getUserBy(@PathParam("email") String email) throws SQLException {
+        return repository.findby(email).orElse(null);
     }
 
     @POST
-    @Path("Login")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(Client client) throws SQLException {
         repository.add(client);
@@ -41,15 +41,38 @@ public class ClientResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response Update(@PathParam("id") long idUser, Client client) throws SQLException{
-        if(repository.findby(idUser).isPresent()){
+        if(repository.findbyid(idUser).isPresent()){
             client.setIdUser(idUser);
             repository.update(client);
-            var livroAtualizado = repository.findby(idUser);
+            var livroAtualizado = repository.findbyid(idUser);
             return Response.status(Response.Status.OK)
                     .entity(livroAtualizado).build();
         }
         return Response.status(Response.Status.NOT_FOUND).entity(client).build();
     }
+
+
+    @POST
+    @Path("Login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response login(Client loginRequest) {
+        try {
+            Optional<Client> client = repository.findByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
+
+            return client.map(c -> Response.ok(c).build())
+                    .orElse(Response.status(Response.Status.UNAUTHORIZED)
+                            .entity("Favor rever suas credenciais")
+                            .type(MediaType.TEXT_PLAIN_TYPE)
+                            .build());
+        } catch (SQLException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Bug no sistema: " + e.getMessage())
+                    .type(MediaType.TEXT_PLAIN_TYPE)
+                    .build();
+        }
+    }
+
 
     @DELETE
     @Path("{id}")
